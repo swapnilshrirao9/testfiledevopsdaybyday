@@ -1,4 +1,4 @@
-23 21 24 1 * bin/sh /home/username/Desktop/abc.sh
+ 23 21 24 1 * bin/sh /home/username/Desktop/abc.sh
 
 0
 create one file vim abc.sh
@@ -247,7 +247,7 @@ Date 13/11/2020  change the permition on web and db             #vi /etc/ssh/ssh
                                                                  3 spaces aswellas --- are must in the ansible coding 
                                                                 direct check the file and run appliction on node we  can use the on the ansbile folder#ansible -i inventory -ba "service application restart" 
 
-Date 17/11/2020 configure password varible and us on the
+Date 17/11/2020 configure password varible and us on the          we used vault-password-git.yml on the gitwgetapache.yml.
                 other program file like gitwgetapache.yml.
 
 
