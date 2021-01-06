@@ -1,0 +1,283 @@
+23 21 24 1 * bin/sh /home/username/Desktop/abc.sh
+
+0
+create one file vim abc.sh
+in that file create one task touch /home/username/desktop/file.txt
+                         DATE VISE WHAT IS TECH IN THE CLASS 
+       DATE                  WHAT WAS WE DOING                       NOTE
+  DATE 19/04/2020        * LAB setup by CMD                           save in the D:\Chef doc\Devops FILE
+  DATE 20/04/2020        * setup APACHE,                            1 setup the "HOST ADAPTER,BRIDGE ADAPTER," access the 'WEBPAGE" by LAPTOP ONLY ON NETWORK 
+                         * setup the LNYX 
+  Date 21/04/2020        * use vagrant for handl the                1 Create the "BRIDGEADAPTER,HOSTADAPTER" 'POWERON & SSH' commad   
+                         the vitual machine file shering            2 Data share bidirection goto '/devops/provision/vagrant' creat file 'data' & notepad vagrant remove '#' on the 46 line
+                         
+                         * add memory and the cpus                  3 In the Vagrant File remove the comments on line '52,54'add line of 'cpus = "2" '
+                         
+                         * check the ram by "free  -m" 
+                         
+                         * if you want to bootup with the           # config.vm.provision "shell", inline: <<-SHELL
+                                                                    #  apt-get update
+                         some of application run with the BOOTUP    #  apt-get install -y apache2  
+                         machine                                    #  SHELL ****uncoment it by removing ( # ) 
+                         
+                         *create the virtual box and applay on 
+                         the virtual box list                       go to the cd vagrant/data 
+                                                                      create the directory by $ mkdir ../"name of virtual machine"
+                                                                    go to the directory  by $ cd ../"name of virtual machine"
+                                                                    and add the vagrant file name to init the parent name like CENTOS or UBUNTU
+                                                                     by $ vagrant init Centos/7
+                                                                     and exit it go to the $ cd vagrant/centos
+                                                                     update the package in centos by $ vagrant package
+                                                                     check its by $ ls that will be "package.box"
+                                                                     and check the list of box by $ Vagrant box list
+                                                                   it not show you need to add by $Vagrant box add "name of packet" package.box
+                                                                   then check it by $ Vagrant box list
+
+
+  			Port Forwading                              config.vm.network "forwarded_port", guest: 80, hosts:8080 host_ip: "127.0.0.1"
+								    config.vm.network "private_network",ip: "192.168.33.10"
+								    config.vm.network "public_network" 
+
+ Date 23/04/2020       * creating the multi-vm like node wice        Create the multi directory in Vagrant folder by $ cd devops/provision/vagrant 
+                                                                    $ mkdir multi
+                                                                    $ cd multi
+                                                                    $ wget https://gitlab.com/roybhaskar9/devops/-/raw/master/provision/vagrant/multivmVagrantfile
+                                                                     check the file by $ ls ;its shown by like multvmVagrantfile 
+                                                                     move the file in vagrant folder throug by $ mv multvmVagrantfile Vagrantfile
+                       * understanding the multvmVagrantfile        
+                       
+                       DOCKER main Part are Container and Imgae  
+                       
+ Date 24/04/2020       * Understanding the Docker Work vs VirtualBox  Docker work in shell used kernal resorce and virtual box create the hole image on the OS and used dedicated RAM   
+                        container working
+                       
+ Date 11/05/2020       * Container working 
+                       * Architecture of the DOcker
+ Date 14/05/2020       * Create the lxc folder                     in the Provision folder and initiate the ubuntu/xenial64 by $ Vagrant init ubuntu/xenial64
+                                                                         File system isolated and Process system isolated ( CHROOT COMMAND)
+                                                                         to creat (Jail) file on (/) root by $ mkdir jail     jail is name of continer tech onthe bsd diffrent os
+                                                                         go to the jail folder by $ cd jail
+                                                                         create folder in jail bin lib lib64 for create the image by $ mkdir bin lib lib64
+                                                                         check out the dependenci of bash   $ ldd /bin/bash
+                                                                                                                                    $ cd lib
+                                                                                                                                    $ mkdir x86_64-linux-gnu 
+                                                                                                                                    $ cd ..
+                                                                                                                                    $ cd jail
+                                                                                                                                    $ sudo apt update
+                                                                                                                                    $ sudo apt install tree
+                                                                                       check out the dependenc of tree              $ whereis tree
+                                                                                                                                    $  ldd /usr/bin/tree
+                                                                               for bash flile dependanci move to the jail os by     $ bashlist="$(ldd /bin/bash | egrep -o '/lib.*\.[0-9]')"
+                                                                               for bash flile dependanci move to the jail os by     $ J=$HOME/jail
+                                                                              for bash flile dependanci move to the jail os by      $ for i in $bashlist; do cp  -v "$i" "${J}${i}"; done
+                                                                              for ls flile dependanci move to the jail os by        $ lslist="$(ldd /bin/ls | egrep -o '/lib.*\.[0-9]')"
+                                                                               for ls flile dependanci move to the jail os by       $ J=$HOME/jail
+                                                                              for bash flile dependanci move to the jail os by      $ for i in $lslist; do cp  -v "$i" "${J}${i}"; done
+                                                                       checkthe bin folder it not the empty it will be same as /bin $ cp -v /bin/bash .          *** (.) containt present position.
+                                                                                                                                    $ cp -v /bin/ls .
+                                                                                Chroot use for make perticular folder as root       $ sudo chroot $J /bin/bash  
+                                                                                                                                    
+ Date 15/05/20   * Linux Containartion and fundamental commands in     download the webserver continer by command of $ curl -sSL https://gitlab.com/roybhaskar9/devops/-/raw/master/provision/docker/concepts/lxd.sh | bash
+                 linux that allow you to nagin project                 Create the webserver continer by command of   $   sudo usermod --append --groups lxd vagrant    
+                 lxc Fundamental way of Containertion                  Launch the Webserver Continer from localmachine $     lxc launch ubuntu:16.04 webserver
+                                                                       Check the ip address and the how many container run $ lxc list
+              
+                                                                      to go the container the of webserver by $ lxc exec webserver -- sudo --login --user ubuntu
+ 
+ 
+ Date 19/05/20   Docker containt only storage but not acupied the     create the docker software on the linux by the command of  # curl -sSL https://get.docker.com/ | bash
+                  resorce like the RAM and CPU utilite.                Need to check the image  on the docker software # docker ps & docker image
+                                                                      to install image(os) on docker software by command of # docker pull fedora  **** dnf is like yum & apt 
+                                                                      create the container by command of # docker run -it fedora bash  ***intereactive terminal (it)
+                                                                      start exescting container by # docker start id or Name 
+                                                                      remove the container by command of # docker rm id 
+                                                                      exit with running container by command of # ctrl+p+q 
+                                                                      enter running container by # docker exec -it id bash
+                                                                      inspect ip address on docker id by # docker inspect id
+                                                                      install the image and run command when it installtion # docker run -it ubuntu apt update 
+                                                                      Create the images with the application # docker commit idcontainer 
+                                                                     
+  Date 29/05/20  Docker container run in regular Base                  start the container with tail -f /dev/null #docker run -it CONTAINERID tail -f /dev/null but its terminal not comeback SO that we use  the "daemonmode" by 
+                 And Bagraound                                        # docker run -d CONTAINERID -f /dev/null 
+                                                                      
+                                                                      FEDORA Dosen't have the "ps aux" so that we used the # dnf install procps
+                                                                      create the container with different with update the command by #docker run -it ubuntu apt update
+                                                                      "-it" it close after the process OFF 
+                                                                      #tail -f /dev/full use the when we dont want close the section the full command like this # docker run -it ubuntu                                                                          tail -f /dev/null **** its never the end and exit from it
+                                                                      Bagraound process called as Deamon so we need the run docker container in the demon process comment like # docker run                                                                         -d ubuntu tail -f /dev/null.
+                                                                      we creating container # docker run -d traning/webapp
+                                                                      we dont have the webbrowser so we us lynx on the container and run the lynx by #lynx localhost:8080
+                                                                      if we need to check ip address by #docker inspect
+                                                                      docker port forwoding need to stop the container
+                                                                      port mapping on the perticular container by command of #docker run -d -p 80(1):5000(2) traing/app python app.py     ****(1)=the outside port number & (2) port of the docker
+                                                                      Check the port maping by # docker port IDofcontainer
+                                                                      check docker images #lsb_release -a
+                                                                      Check the port logs by #docker port 85 and the #docker logs -f dockerid
+                                                                      file share the through the vm to container 
+ Date 29/05/20 -2   Docker container share file or documents          1)create file on the VM  by #touch ~/file1
+                                                                      file share command #docker run -d -v ~/:/tmp -i ubuntu  *** -v is the volume share ~/ is the localmachine rootfile &                                                                       :/tmp is the filelocation of the dockercontainer  
+                                                       
+ Date 02/06/2020   Docker container create with the datarecovery      create the container with data save by #docker create -v /tmp --name namecontainer OSname
+                   or Docker Save the container Data after the        run the container by #docker run -it --vloumes-from namecontainer OSname bash
+                                                                      go to tmp folder and create touch file and remove the container 
+                                                                      run the new container by #docker run -it    --volume-from namecontainer OSname bash
+                   container delete and get back the data in new  
+                   Container as well as application .
+ Date 03/06/2020   Other way to docker container install(Dockerfile)  create the file in the root (/) by # mkdir dockerbuild
+                                                                              # cd dockerbuild
+                                                                              # touch Dockerfile
+                                                                              # nano Dockerfile
+                                                                              FROM ubuntu
+                                                                              MAINTAINER name@gmail.com
+										                                      RUN echo "nameserver 192.168.0.1" > /etc/resolv.conf
+										                              
+                                                                              RUN   apt update
+                                                                              RUN apt install -y application
+                                                                              ENV TZ=Asia/Kolkata
+                                                                              RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+                                                                              CMD ["/bin/bash", "-c", "service nginx start && tail -f /dev/null"]
+                                                                      after complete the run build command # docker build -t nameofcontainerwant .  **** t= tagg .=currentfolder
+                                                                      such that file one issue, issue is if we run the command like # docker run -it custome service start nginx 
+                                                                       its start and closed imdatly so that we change the comman for not closed by command of # docker run -it custme service start nginx && -f/dev/null
+                                                                       in this command start nginx and end but the dev/null not end.     
+                   DOcker image push                                  create image and add application stop image tag the image with diffrent name and push the image
+                                                                       like wise # docker tag exectingimage:tag nameoftheloginid/newtag 
+                                                                       #docker push  nameoftheloginid/newtag 
+                   test Webserver onthe docker machine                                                    
+                                                                Pending
+ 
+Date 5/06/20     Install Master/Node 1-3                               Test the node conneted to the Master by # kubectl get node
+
+Date 8/06/20     Introduction of Kubernets and Market Vlaue of kubernets    Hell details
+
+
+Date 09/06/20    Kube controller manager                          Kube contrller manager connected to the Kube API Server, Inward and outward commiunication by APT   
+                                                                  Node also connected to the API Server 
+                                                                  API has Key Value store like Data base called as ETCD : has the knowlaged of connected compponent 
+                                                                  Kubernet scheduler
+                                                                  Kubelet :talk to the API server, Manages localy ,Pods:-create docker container through driver mechanism,
+                                                                  kube proxy:-talk to the API server, Networking between the servers 
+                                                                  Cloud controller manager:-talk to the API server, cloud services:- Loadbalancing
+                                                                  Its used for docker containter master server 
+Date 11/06/20   kubernets basic commands                          Find the kubernets nodes by # kubectl get nodes
+  
+                                                                  Run the docker image of mynginx by # kubectl run mynginx --image=nginx
+                                                                  for check the nginx install on which pod or nodes by # kubectl get pods -o wide
+Date 6/7/2020   AWS Setup the node by Automation                #eksctl create cluster --name autogennode --region us-east-2 --node-type t2.micro
+
+Date 15/6/2020  Setup Virtual Box on Gitlab 
+
+                                                                git --version
+                                                                Step 3: Run following git commands
+                                                                git config --global user.name “xxxx”
+                                                                git config --global user.name
+                                                                git config --global user.email “xxxx”
+                                                                git config --global user.email
+                                                                git config --global --list
+                                                                Step 4: Create a demo project/folder & add to git  
+                                                                Step 5: Goto cmd OR terminal OR git bash 
+                                                                CD to the location of the folder and run following commands
+                                                                      git init
+                                                                      git status
+                                                                      git add .
+                                                                      git commit -m “msg”
+                                                                      git push -u -f “url” master
+
+Date 16/7/2020  Setup Github Migrate to Gitlab                      
+		            setup Gogs                                        Vagrantfile uncomment line 35,52,57,58 make the ram 2GB
+		            for Gogs installtion				               curl -sSL https://gitlab.com/roybhaskar9/devops/-/raw/master/release/git/gogs.sh | bash  
+                git on directory                           git init
+                git configure with mail and password        git config --global swapnil.shrirao9@gmail.com 
+                git file download                           git 
+            
+Date 17/7/2020	Issue if Gogs end withiout set up user             go to gogs folder & #./gogs web              and put the ip address on the web portalof main
+		        CICD Meanings lunching website  
+                Github creat clone,				                   go to the folder and # git clone \\location\
+		        Github history,last				                    for the check history #git log    check last 2 changes #git log -2  Create file in the #git log -p -2
+								                                    check the status #git log --stat
+Date 20/7/2020  								                                    
+Date 22/7/2020  Web Application /JRE application 		            Web site application is diffrent type of the Desktop application Jre is the Middleware. War file not work for the JRE                                                                             Platfromit
+                                                                    work on the java application Server ,Tomacat,Weblogic webfire. Desktop application in jar=JRE platform & Web                                                                                      Application =Tomcat
+                                                                    Web application installtion
+                                                                    Go to the Appache and web manager page  https://tomcat.apache.org/tomcat-7.0-doc/appdev/sample/sample.war download the                                                                            file,and add the Select War file to upload .jar file run into the Servlet jsp is PHP. the webpage end with / means the                                                                            html jsp web page Java Savlet 						 
+		                                                            otherGitrepository to My Gitrepository	
+
+Date 23/7/2020  mavan setup				                           	Item name build Name ; Freestyle project build; Copy From Gitpull; Build invoke top level Maven Target
+ 	        	Intellij IDea Setup							
+                if build the not working                        Buil not working change the setting.xml http >https location /etc/maven/ change the http to https on 21 29 45 
+Date 31/7/2020 Installtion Jenkins Sonar & Nexus 		if any case start issue on the Nexus you can edit the file package.pp comment line 61 and add the line source =>"https://download.sonatype.com/nexus/oss/nexus-2.8.0-05-bundle.tar.gz", location /etc/puppetlabs/code/environments/production/modules/nexus/manifests
+
+Date 3/08/2020 setup Jenkins Explantion
+Date 04/08/2020 Build Setup
+Date 05/08/20   Explanation on                                    the War file push on tomcat mashine through the Jenkins maven Machine
+Date 7/08/2020 Deploy work maven work                               XML START WITH <setting> and closed by </setting> <parmater>value</Paramater> profiles holding the sonar and nexus profile                                                       line no 3-13 sonar & 15-34 nexus that has sub repository mavencentral use for all depandancy downloaded two                                                                          repository. How to the nexus integrated work folwer? go to the maven setting.xml add portion to the integrated                                                                       and going the jenkins and called the Maven  
+                                                                            to  the War file push on tomcat mashine through the Jenkins maven Machine
+Date 10/08/2020 Tomcat machine run                                    curl -sSL https://gitlab.com/roybhaskar9/devops/-/raw/master/release/jenkins/tomcat/tomcatubuntu.sh
+
+
+Date 14/10/2020  join the node in server                        we used the workstation for it and go to the chef-repo folder and used # knife bootstrap 192.168.33.11 -x vagrant -P vagrant --sudo -N node1
+Date 22/10/2020 chef coding understanding
+                                                                https://gitlab.com/roybhaskar9/devops/-/raw/master/coding/chef/chefcookbooks/onlyif.rb
+                                                                https://gitlab.com/roybhaskar9/devops/-/raw/master/coding/chef/chefcookbooks/onlyif2.rb
+                  onlyif- possitive way                           if file or application is present then run 
+                  notif - Negitive way                            if file and application are not present then the run
+                  multiple packages                               packages = ['vim', 'git', 'curl']
+
+                                                                  packages.each do |package|
+                                                                  apt_package package do
+                                                                    action :install
+                                                                    end
+                                                                   end
+        
+Date 29/10/2020  wordpress application install on chefnode      starter file all data to wordpress folder by #cp -R starter wordpress
+                 through chefworkstation,                       changes the matadat file change the name 'wordpress' description 'installtion wordpress cookbook' version as itis maintainer is ur name 
+                                                                #cd recipes
+                                                                 remove the default.rb and wordoress.rb replace it and change the name default.rb
+                                                                 and run this command on the folder# knife cookbook upload wordpress
+
+Date 4/11/2020   remove the known host file ssh                 by # vi ~/.ssh/known_hosts and clear all
+                                                                and run #knife bootstrap 192.168.33.11 -x vagrant -P vagrant --sudo -N node1
+
+
+Date 11/11/2020  Set ansible and web and db machine 
+
+Date 13/11/2020  change the permition on web and db             #vi /etc/ssh/sshd_config *** line 52 & 28 make yes
+                                                                set password #passwd
+                                                                #ssh-keygen *** on the acs/ansible and #copy-ssh-id root@web(ipaddress) && copy-ssh root@db(ipaddress)
+                                                                 3 spaces aswellas --- are must in the ansible coding 
+                                                                direct check the file and run appliction on node we  can use the on the ansbile folder#ansible -i inventory -ba "service application restart" 
+
+Date 17/11/2020 configure password varible and us on the
+                other program file like gitwgetapache.yml.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                  
